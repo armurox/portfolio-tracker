@@ -7,7 +7,7 @@ This Python Command Line Application provides a framework for tracking and manag
 
 - **Instrument Class**: The `Instrument` class represents a financial instrument and includes properties to track its P&L, open positions, and historical data. (Design note: Interestingly, it took me some time to settle on a way of storing what the instrument was, and how it would run. I decided evetually to settle on a class implementation, as, in the future, if I choose to support other financial instruments, they can inherit many of the Instument class's features.)
 
-- **Error Handling**: Custom exceptions (`StockError` and `SellError`) are raised for invalid instrument types and excessive sell amounts, respectively.
+- **Error Handling**: Custom exceptions (`StockError` and `SellError`) are raised for invalid finainstrument types and excessive sell amounts, respectively.
 
 - **Operator Overloading**: The `Instrument` class supports operator overloading for adding compatible financial instruments together.
 
