@@ -23,7 +23,7 @@ This Python Command Line Application provides a framework for tracking and manag
 
 1. Clone this repo
 
-2. Install the required dependencies (use pip install -r requirements.txt for versions before python 3.x or pip3 install -r requirements.txt for python 3.x or greater to install them).
+2. Install the required dependencies (use `pip install -r requirements.txt` for versions before python 3.x or `pip3 install -r requirements.txt` for python 3.x or greater to install them).
 
 3. Run the code with `python` (or `python3` for python 3.x or greater) `portfolio_tracker.py`. The program will prompt you to enter the financial instrument's symbol, type (stock or future), and starting position (0 to run custom simulations).
 
