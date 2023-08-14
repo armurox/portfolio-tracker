@@ -9,7 +9,7 @@ This Python Command Line Application provides a framework for tracking and manag
 
 - **Error Handling**: Custom exceptions (`StockError` and `SellError`) are raised for invalid instrument types and excessive sell amounts, respectively.
 
-- **Operator Overloading**: The `Instrument` class supports operator overloading for adding compatible financial instruments together.
+- **Operator Overloading**: The `Instrument` class supports operator overloading for adding compatible financial instruments together
 
 - **Buy and Sell Methods**: Methods within the `Instrument` class allow for updating the portfolio's state when buying or selling an instrument.
 
