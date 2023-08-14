@@ -23,7 +23,7 @@ This Python Command Line Application provides a framework for tracking and manag
 
 1. Clone this repo
 
-2. install the required dependencies (use pip install -r requirements.txt for versions before python 3.x or pip3 install -r requirements.txt for python 3.x or greater to install them).
+2. Install the required dependencies (use pip install -r requirements.txt for versions before python 3.x or pip3 install -r requirements.txt for python 3.x or greater to install them).
 
 3. Run the code with `python` (or `python3` for python 3.x or greater) `portfolio_tracker.py`. The program will prompt you to enter the financial instrument's symbol, type (stock or future), and starting position (0 to run custom simulations).
 
@@ -39,7 +39,7 @@ This Python Command Line Application provides a framework for tracking and manag
 
 This code serves as a basic framework for tracking financial instrument P&L and conducting simulations. Depending on your needs, you can further enhance the code by adding more features, refining error handling, or integrating with real-time data sources.
 
-Please make sure to have the necessary dependencies installed before running the code (`matplotlib`, `numpy`, `pandas`).
+Please make sure to have the necessary dependencies installed before running the code (`matplotlib`, `numpy`, `pandas`, `sys`).
 
 ---
 Additionally, please note the the functions in the helpers.py file were not written by me. They were created for Problem Set 9 of CS50 2023, and have been imported as a helper library here, for stock price lookup from the Yahoo Finance API. helpers.py ©2023 David J. Malan/ Harvard
