@@ -21,17 +21,19 @@ This Python Command Line Application provides a framework for tracking and manag
 
 ## Usage
 
-1. Run the code in a Python environment that has the necessary dependencies (matplotlib, numpy, pandas) (use pip install -r requirements.txt to install them).
+1. Clone this repo
 
-2. Upon running the code, the program will prompt you to enter the financial instrument's symbol, type (stock or future), and starting position (0 to run custom simulations).
+2. install the required dependencies (use pip install -r requirements.txt for versions before python 3.x or pip3 install -r requirements.txt for python 3.x or greater to install them).
 
-3. Based on your selection, the program will either fetch the current price (live trading) or prompt you to enter the current price.
+3. Run the code with `python` (or `python3` for python 3.x or greater) `portfolio_tracker.py`. The program will prompt you to enter the financial instrument's symbol, type (stock or future), and starting position (0 to run custom simulations).
 
-4. You can then choose to buy or sell the instrument and input the corresponding amount.
+4. Based on your selection, the program will either fetch the current price (live trading) or prompt you to enter the current price.
 
-5. The program will update the portfolio's state accordingly and provide options for further actions.
+5. You can then choose to buy or sell the instrument and input the corresponding amount.
 
-6. After completing trading actions, the program will generate a table and a plot illustrating the P&L changes over trades.
+6. The program will update the portfolio's state accordingly and provide options for further actions.
+
+7. After completing trading actions, the program will generate a table and a plot illustrating the P&L changes over trades.
 
 ## Note
 
