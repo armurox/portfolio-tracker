@@ -1,0 +1,10 @@
+aapl
+stock
+4
+test
+42
+buy
+44
+450
+sell
+41

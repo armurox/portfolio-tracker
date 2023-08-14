@@ -1,9 +1,4 @@
-Required libraries:
 matplotlib
-csv
-argparse
-tabulate
 numpy
 pandas
-
-Note: All can be installed with pip install (name) (or pip3 install (name) for python3 or greater)
+sys

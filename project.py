@@ -1,11 +1,18 @@
-import csv
 import matplotlib.pyplot as plt
-import argparse
 import numpy as np
-from tabulate import tabulate
+from helpers import usd, lookup
 import pandas as pd
+import sys
 
 # Class that calculates P&L for a financial instrument, and contains the history of the P&L (used to create different financial instrument trackers)
+
+class StockError(Exception):
+    "Raised when when we have an invalid instrument type"
+    pass
+class SellError(Exception):
+    "Raised when trying to sell more than we have"
+    pass
+
 class Instrument:
     def __init__(self, name, type, open_pos: int, curr_price: float):
         self.cum_pl = 0
@@ -17,6 +24,7 @@ class Instrument:
         self._cum_hist = [{self.curr_price: self.cum_pl}]
         self._realized_hist = [{self.curr_price: self.realized}]
         self.plot_realized = [self.realized] # no getter / setter set
+        self.plot_unrealized = [self.unrealized]
         self.name = name
         self.type = type.lower()
         self.open_pos = open_pos # No getter / setter set
@@ -51,7 +59,7 @@ class Instrument:
         return self._type
     @type.setter
     def type(self, type):
-        if type not in ["stock", "future"]:
+        if type not in ["stock"]:
             raise StockError("Invalid Financial Instrument!")
         self._type = type
     # Operator overloading for adding financial instruments together
@@ -74,6 +82,7 @@ class Instrument:
         self._cum_hist.append({curr_price: self.cum_pl})
         self._realized_hist.append({curr_price: self.realized})
         self.plot_realized.append(self.realized)
+        self.plot_unrealized.append(self.unrealized)
     # Method to update the current state of the portfolio if selling the instrument
     def sell(self, curr_price, amt):
         if (amt > self.open_pos):
@@ -106,77 +115,100 @@ class Instrument:
         self._cum_hist.append({self.curr_price: self.cum_pl})
         self._realized_hist.append({self.curr_price: self.realized})
         self.plot_realized.append(self.realized)
+        self.plot_unrealized.append(self.unrealized)
 
 
     @classmethod
     def create(cls):
-        name = input("Name: ")
-        type = input("Type: ")
-        open_pos = int(input("Starting number to buy: "))
-        curr_price = float(input("Current price: "))
-        return cls(name, type, open_pos, curr_price)
+        name = input("Symbol: ")
+        stock = lookup(name)
+        # Check validity of stock
+        if stock:
+            curr_price = sotck["price"]
+            print(f"Curr_price is: {curr_price}")
+            open_pos = int(input("Starting number to buy (type 0 if you would like to run your own simulation of stock prices, with the current price not being the starting): "))
+            return cls(name, type, open_pos, curr_price)
+        else:
+            print("Invalid symbol")
+            sys.exit(1)
 
+        type = input("Type: ")
 
 def main():
-
+    # Initial set up of instrument
     while True:
         try:
-            stock = Instrument.create() #Instrument("AAPL", "Stock", 3000, 46.78)
+            stock = Instrument.create() # essentially equivalent to a object create method, with prompts
             break
         except StockError:
             print("Invalid Financial Instrument!")
 
     trade(stock)
 
-    # Run some buy and sell tests
-    graph(stock)
-    # stock.buy(45.91, 1000)
-    # print(stock)
-    # stock.sell(47.63, 1200)
-    # print(stock)
-    # stock.buy(46.15, 500)
-    # print(stock)
-    # stock.sell(48.55, 1100)
-    # print(stock)
-    # stock.sell(49.20, 700)
-    # print(stock)
-    # stock.sell(48.55, 1500)
-    # print(stock)
-    # graph(stock)
+    data = tabulate(stock)
+    graph(data)
     ...
 
 
+# Produce a table of the data
+def tabulate(instrument):
+    data = pd.DataFrame()
+    data["Realized P&L (usd)"] = pd.Series(instrument.plot_realized)
+    data["Unrealized P&L (usd)"] = pd.Series(instrument.plot_unrealized)
+    data["Total P&L (usd)"] = data["Realized P&L (usd)"] + data["Unrealized P&L (usd)"]
+    print(data.to_string(index=False))
+    return data
 
 
-
-def graph(instrument):
-    data = pd.DataFrame(instrument.plot_realized)
-    print(data)
-    plt.title('Realized profit per trade')
-    plt.xlabel('Trade number')
-    plt.ylabel('Realized profit')
-    plt.plot(data)
-    plt.savefig("trial plot.png")
+def graph(data):
+    plt.title("Profit or Loss per trade")
+    plt.xlabel("Trade number")
+    plt.ylabel("Profit or Loss")
+    plt.plot(data["Realized P&L (usd)"],"og-", label = "Realized")
+    plt.plot(data["Unrealized P&L (usd)"],"ob--", label = "Unrealized")
+    plt.plot(data["Total P&L (usd)"],"ok-", label = "Total")
+    plt.legend()
+    plt.savefig("P&L Graph.png")
+    return 1
     ...
 
 
 
 def trade(instrument):
+    # Define manner of simulation
+    while True:
+        simulation_type = input("Would you like to live trade (type live), or test your own simulation of stock prices (type test)? ").strip()
+        if not valid_simulation(simulation_type):
+                continue
+        break
+    # Run simulation
     while True:
         try:
-            choice = input("What would you like to do? (buy or sell only), ctrl-d to terminate: ").lower()
-            if (choice not in ["buy", "sell"]):
-                continue
-            elif choice == "buy":
-                price = float(input("Current price: "))
-                amt = int(input("Amount to buy: "))
-                instrument.buy(price, amt)
+            if (simulation_type == "live"):
+                price = lookup(instrument.name)["price"]
+                print(f"The current price of the instrument is: {price}")
             else:
-                price = float(input("Current price: "))
-                amt = int(input("Amount to sell: "))
-                instrument.sell(price, amt)
+                price = float(input("Current price (ctrl-d at any time to terminate): ").strip())
+            while True:
+                choice = input("What would you like to do? (buy or sell only): ").lower()
+                if (choice not in ["buy", "sell"]):
+                    continue
+                elif choice == "buy":
+                    amt = int(input("Amount to buy: "))
+                    instrument.buy(price, amt)
+                    break
+                else:
+                    amt = int(input("Amount to sell: "))
+                    instrument.sell(price, amt)
+                    break
         except EOFError:
+            print()
             break
+
+def valid_simulation(type):
+    if type not in ["live", "test"]:
+        return False
+    return True
 
 
 if __name__ == "__main__":
