@@ -1,4 +1,4 @@
-# Financial Instrument Portfolio Tracker
+# Financial Strategy Portfolio Tracker
 ## Video Demo: https://youtu.be/Uahc-dyq9h0
 ## Description:
 This Python Command Line Application provides a framework for tracking and managing the profit and loss (P&L) of financial instruments, specifically stocks. The code calculates both realized and unrealized P&L, maintains a history of P&L changes, and generates visualizations of the results. It interacts with users to simulate live trading (with actual stock prices looked up using the Yahoo Finance API) or customized simulations of stock price changes.
